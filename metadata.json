@@ -1,0 +1,6 @@
+{
+  "name": "Virtual Stylist",
+  "description": "Upload a clothing item and get AI-generated outfit combinations visualized as flat-lays.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
