@@ -1,3 +1,4 @@
+import { localApiOnly } from './local-api-guard.mjs';
 import express from 'express';
 import path from 'path';
 import multer from 'multer';
@@ -9,6 +10,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 async function startServer() {
   const app = express();
+app.use('/api', localApiOnly(() => PORT));
   const PORT = 3000;
 
   app.use(express.json({ limit: '10mb' }));
@@ -133,7 +135,7 @@ async function startServer() {
       let imageUrl = null;
       for (const part of response.candidates?.[0]?.content?.parts || []) {
         if (part.inlineData) {
-          imageUrl = \`data:\${part.inlineData.mimeType};base64,\${part.inlineData.data}\`;
+          imageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
           break;
         }
       }
@@ -166,8 +168,8 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(\`Server running on port \${PORT}\`);
+  app.listen(PORT, '127.0.0.1', () => {
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
